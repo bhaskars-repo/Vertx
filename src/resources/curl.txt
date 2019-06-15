@@ -1,0 +1,234 @@
+
+$ curl -v http://localhost:8080/api/contacts/v1/getAll
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /api/contacts/v1/getAll HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 475
+< 
+* Connection #0 to host localhost left intact
+{"errcode":0,"payload":"[{\"firstName\":\"Dummy\",\"lastName\":\"Cracker\",\"emailId\":\"dummy@cracker.org\",\"mobile\":\"000-000-0000\"},{\"firstName\":\"Alice\",\"lastName\":\"Earthling\",\"emailId\":\"alice@earth.io\",\"mobile\":\"123-456-1100\"},{\"firstName\":\"Bob\",\"lastName\":\"Martian\",\"emailId\":\"bob@mars.co\",\"mobile\":\"789-123-1080\"},{\"firstName\":\"Charlie\",\"lastName\":\"Drummer\",\"emailId\":\"charlie@musician.org\",\"mobile\":\"666-777-9006\"}]"}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v http://localhost:8080/api/contacts/v1/getByLastName/Martian
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /api/contacts/v1/getByLastName/Martian HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 130
+< 
+* Connection #0 to host localhost left intact
+{"errcode":0,"payload":"{\"firstName\":\"Bob\",\"lastName\":\"Martian\",\"emailId\":\"bob@mars.co\",\"mobile\":\"789-123-1080\"}"}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v http://localhost:8080/api/contacts/v1/getByLastName/Jupiter
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /api/contacts/v1/getByLastName/Jupiter HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 13
+< 
+* Connection #0 to host localhost left intact
+{"errcode":1}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v -d "{\"mobile\":\"300-111-2222\"}" -X PUT http://localhost:8080/api/contacts/v1/updateByLastName/Drummer
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> PUT /api/contacts/v1/updateByLastName/Drummer HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> Content-Length: 25
+> Content-Type: application/x-www-form-urlencoded
+> 
+* upload completely sent off: 25 out of 25 bytes
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 143
+< 
+* Connection #0 to host localhost left intact
+{"errcode":0,"payload":"{\"firstName\":\"Charlie\",\"lastName\":\"Drummer\",\"emailId\":\"charlie@musician.org\",\"mobile\":\"300-111-2222\"}"}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v -d "{\"email\":\"alice_01@antartica.ac\",\"mobile\":\"501-222-2345\"}" -X PUT http://localhost:8080/api/contacts/v1/updateByLastName/Earthling
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> PUT /api/contacts/v1/updateByLastName/Earthling HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> Content-Length: 57
+> Content-Type: application/x-www-form-urlencoded
+> 
+* upload completely sent off: 57 out of 57 bytes
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 144
+< 
+* Connection #0 to host localhost left intact
+{"errcode":0,"payload":"{\"firstName\":\"Alice\",\"lastName\":\"Earthling\",\"emailId\":\"alice_01@antartica.ac\",\"mobile\":\"501-222-2345\"}"}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v -d "{\"dummy\":\"dummy\"}" -X PUT http://localhost:8080/api/contacts/v1/updateByLastName/Martian
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> PUT /api/contacts/v1/updateByLastName/Martian HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> Content-Length: 17
+> Content-Type: application/x-www-form-urlencoded
+> 
+* upload completely sent off: 17 out of 17 bytes
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 130
+< 
+* Connection #0 to host localhost left intact
+{"errcode":1,"payload":"{\"firstName\":\"Bob\",\"lastName\":\"Martian\",\"emailId\":\"bob@mars.co\",\"mobile\":\"789-123-1080\"}"}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v -X DELETE http://localhost:8080/api/contacts/v1/deleteByLastName/Cracker
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> DELETE /api/contacts/v1/deleteByLastName/Cracker HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 138
+< 
+* Connection #0 to host localhost left intact
+{"errcode":0,"payload":"{\"firstName\":\"Dummy\",\"lastName\":\"Cracker\",\"emailId\":\"dummy@cracker.org\",\"mobile\":\"000-000-0000\"}"}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v -X DELETE http://localhost:8080/api/contacts/v1/deleteByLastName/Jupiter
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> DELETE /api/contacts/v1/deleteByLastName/Jupiter HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 13
+< 
+* Connection #0 to host localhost left intact
+{"errcode":1}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v -d "{\"fname\":\"Frank\",\"lname\":\"Polymer\",\"email\":\"frank_p@spacelab.io\",\"mobile\":\"777-888-9999\"}" -X POST http://localhost:8080/api/contacts/v1/addContact
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> POST /api/contacts/v1/addContact HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> Content-Length: 89
+> Content-Type: application/x-www-form-urlencoded
+> 
+* upload completely sent off: 89 out of 89 bytes
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 140
+< 
+* Connection #0 to host localhost left intact
+{"errcode":0,"payload":"{\"firstName\":\"Frank\",\"lastName\":\"Polymer\",\"emailId\":\"frank_p@spacelab.io\",\"mobile\":\"777-888-9999\"}"}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v -d "{\"lname\":\"Jupiter\",\"dummy\":\"dummy\",\"mobile\":\"000-000-0000\"}" -X POST http://localhost:8080/api/contacts/v1/addContact
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> POST /api/contacts/v1/addContact HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> Content-Length: 59
+> Content-Type: application/x-www-form-urlencoded
+> 
+* upload completely sent off: 59 out of 59 bytes
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 13
+< 
+* Connection #0 to host localhost left intact
+{"errcode":1}
+* Closing connection 0
+
+// --------------------------
+
+$ curl -v http://localhost:8080/api/contacts/v1/getAll
+
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /api/contacts/v1/getAll HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.64.1
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 484
+< 
+* Connection #0 to host localhost left intact
+{"errcode":0,"payload":"[{\"firstName\":\"Frank\",\"lastName\":\"Polymer\",\"emailId\":\"frank_p@spacelab.io\",\"mobile\":\"777-888-9999\"},{\"firstName\":\"Alice\",\"lastName\":\"Earthling\",\"emailId\":\"alice_01@antartica.ac\",\"mobile\":\"501-222-2345\"},{\"firstName\":\"Bob\",\"lastName\":\"Martian\",\"emailId\":\"bob@mars.co\",\"mobile\":\"789-123-1080\"},{\"firstName\":\"Charlie\",\"lastName\":\"Drummer\",\"emailId\":\"charlie@musician.org\",\"mobile\":\"300-111-2222\"}]"}
+* Closing connection 0
+
