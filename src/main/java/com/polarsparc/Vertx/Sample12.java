@@ -47,20 +47,17 @@ public class Sample12 {
 		public void start(Future<Void> fut) {
 			ConfigRetriever retriever = ConfigRetriever.create(vertx);
 			
-			ConfigRetriever.getConfigAsFuture(retriever).compose(config -> {
-				Future<Void> next = Future.future();
-				
-				ADDRESS = config.getString("commands.endpoint");
-				
-				LOGGER.log(Level.INFO, "Eventbus commands address: " + ADDRESS);
-				
-				JDBC = JDBCClient.createShared(vertx, config, "ContactsMgmt");
-				
-				return next;
-			})
-			.setHandler(confres -> {
+			ConfigRetriever.getConfigAsFuture(retriever).setHandler(confres -> {
 				 if (confres.succeeded()) {
-					vertx.eventBus().consumer(ADDRESS, message -> {
+					 JsonObject config = confres.result();
+					 
+					 ADDRESS = config.getString("commands.endpoint");
+					 
+					 JDBC = JDBCClient.createShared(vertx, config, "ContactsMgmt");
+					 
+					 LOGGER.log(Level.INFO, "Eventbus commands address: " + ADDRESS);
+					
+					 vertx.eventBus().consumer(ADDRESS, message -> {
 						String payload = message.body().toString();
 								
 						LOGGER.log(Level.INFO, "Received payload - " + payload);
